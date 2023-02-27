@@ -1,18 +1,24 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'parsely-react-native-sdk';
+import {
+  startEngagement,
+  stopEngagement,
+  trackPageView,
+} from 'parsely-react-native-sdk';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    trackPageView('test.com/app');
+    startEngagement('test.com/app');
+    return () => {
+      stopEngagement();
+    };
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>Sample page</Text>
     </View>
   );
 }

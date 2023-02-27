@@ -17,6 +17,60 @@ const ParselyReactNativeSdk = NativeModules.ParselyReactNativeSdk
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return ParselyReactNativeSdk.multiply(a, b);
+export function configure(siteId: string): void {
+  return ParselyReactNativeSdk.configure(siteId);
+}
+
+type PageViewMetada = {
+  canonicalUrl?: string;
+  publicationDate?: string;
+  title?: string;
+  authors?: Array<string>;
+  imageUrl?: string;
+  section?: string;
+  tags?: Array<string>;
+};
+
+export function trackPageView(
+  url: string,
+  urlRef?: string,
+  metadata?: PageViewMetada,
+  extraData?: Record<string, unknown>,
+  siteId?: string
+): void {
+  const {
+    canonicalUrl,
+    publicationDate,
+    title,
+    authors,
+    imageUrl,
+    section,
+    tags,
+  } = metadata || {};
+  return ParselyReactNativeSdk.trackPageView(
+    url,
+    urlRef,
+    extraData,
+    siteId,
+    canonicalUrl,
+    publicationDate,
+    title,
+    authors,
+    imageUrl,
+    section,
+    tags
+  );
+}
+
+export function startEngagement(
+  url: string,
+  urlRef?: string,
+  extraData?: Record<string, unknown>,
+  siteId?: string
+): void {
+  return ParselyReactNativeSdk.startEngagement(url, urlRef, extraData, siteId);
+}
+
+export function stopEngagement(): void {
+  return ParselyReactNativeSdk.stopEngagement();
 }
