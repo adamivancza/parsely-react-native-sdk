@@ -4,19 +4,11 @@ parse.ly React Native SDK
 
 ## Installation
 
-```sh
-npm install parsely-react-native-sdk
-```
+TODO
 
 ## Usage
 
-```js
-import { multiply } from 'parsely-react-native-sdk';
-
-// ...
-
-const result = await multiply(3, 7);
-```
+TODO
 
 ## Contributing
 
