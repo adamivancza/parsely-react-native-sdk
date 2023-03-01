@@ -28,7 +28,11 @@ export function configure(siteId: string): void {
   return ParselyReactNativeSdk.configure(siteId);
 }
 
-type PageViewMetada = {
+export type PageViewAdditionalData = EngagementAdditionalData & {
+  metadata?: PageViewMetada;
+};
+
+export type PageViewMetada = {
   canonicalUrl?: string;
   publicationDate?: string;
   title?: string;
@@ -38,24 +42,24 @@ type PageViewMetada = {
   tags?: Array<string>;
 };
 
+export type EngagementAdditionalData = {
+  urlRef?: string;
+  extraData?: Record<string, unknown>;
+  siteId?: string;
+};
 /**
  * Track a pageview event
  *
  * @export
  * @param {string} url - The URL of the article being tracked
- * @param {string} [urlRef] - The url of the page that linked to the viewed page. Analogous to HTTP referer
- * @param {PageViewMetada} [metadata] - Metadata for the viewed page
- * @param {Record<string, unknown>} [extraData] - A dictionary of additional information to send with the generated pageview event
- * @param {string} [siteId] - The Parsely site ID for which the pageview event should be counted
+ * @param {PageViewAdditionalData} [additionalData] - additional tracking information
  * @return {*}  {void}
  */
 export function trackPageView(
   url: string,
-  urlRef?: string,
-  metadata?: PageViewMetada,
-  extraData?: Record<string, unknown>,
-  siteId?: string
+  additionalData?: PageViewAdditionalData
 ): void {
+  const { urlRef, metadata, extraData, siteId } = additionalData || {};
   const {
     canonicalUrl,
     publicationDate,
@@ -89,17 +93,14 @@ export function trackPageView(
  *
  * @export
  * @param {string} url - The URL of the article being tracked
- * @param {string} [urlRef] - The url of the page that linked to the viewed page. Analogous to HTTP referer
- * @param {Record<string, unknown>} [extraData] - iOS ONLY. A dictionary of additional information to send with generated heartbeat events
- * @param {string} [siteId] - The Parsely site ID for which the heartbeat events should be counted
+ * @param {PageViewAdditionalData} [additionalData] - additional tracking information
  * @return {*}  {void}
  */
 export function startEngagement(
   url: string,
-  urlRef?: string,
-  extraData?: Record<string, unknown>,
-  siteId?: string
+  additionalData?: EngagementAdditionalData
 ): void {
+  const { urlRef, extraData, siteId } = additionalData || {};
   return ParselyReactNativeSdk.startEngagement(url, urlRef, extraData, siteId);
 }
 
